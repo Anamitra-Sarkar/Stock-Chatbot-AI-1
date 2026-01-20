@@ -89,7 +89,7 @@ export default function Chat() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="h-full flex flex-col items-center justify-center p-8 text-center max-w-4xl mx-auto"
+              className="h-full flex flex-col items-center justify-center p-4 md:p-8 text-center max-w-4xl mx-auto"
             >
               <motion.div 
                 initial={{ scale: 0.8 }}
@@ -99,8 +99,8 @@ export default function Chat() {
               >
                 <TrendingUp className="w-10 h-10 text-primary" />
               </motion.div>
-              <h2 className="text-3xl font-bold mb-2 font-display">Market Intelligence AI</h2>
-              <p className="text-muted-foreground max-w-md mb-12">
+              <h2 className="text-2xl md:text-3xl font-bold mb-2 font-display">Market Intelligence AI</h2>
+              <p className="text-muted-foreground text-sm md:text-base max-w-md mb-8 md:mb-12 px-4">
                 Ask me about stock trends, market analysis, or financial concepts. I'm here to help you navigate the markets.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
@@ -111,7 +111,7 @@ export default function Chat() {
                     transition={{ delay: 0.3 + index * 0.1 }}
                     key={suggestion.text}
                     onClick={() => handleSend(suggestion.text)}
-                    className="p-6 text-left rounded-xl bg-card/40 backdrop-blur-md border border-border/50 hover:border-primary/50 hover:bg-card/60 hover:shadow-xl transition-all duration-300 group"
+                    className="p-4 md:p-6 text-left rounded-xl bg-card/40 backdrop-blur-md border border-border/50 hover:border-primary/50 hover:bg-card/60 hover:shadow-xl transition-all duration-300 group"
                   >
                     <div className="flex items-start gap-4">
                       <div className="p-2 rounded-lg bg-secondary/50 group-hover:bg-primary/20 transition-colors">
