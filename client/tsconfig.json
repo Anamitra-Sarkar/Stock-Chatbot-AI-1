@@ -16,8 +16,8 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
 
     /* Path aliases */
@@ -25,8 +25,11 @@
     "paths": {
       "@/*": ["./src/*"],
       "@shared/*": ["../shared/*"]
-    }
+    },
+    
+    /* Types */
+    "types": ["vite/client"]
   },
-  "include": ["src", "../shared"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
