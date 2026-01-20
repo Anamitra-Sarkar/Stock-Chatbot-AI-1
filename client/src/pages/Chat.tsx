@@ -6,6 +6,7 @@ import { Sidebar } from "@/components/Sidebar";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, TrendingUp, Compass, Newspaper, Globe } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { type Message } from "@shared/schema";
 
 const SUGGESTIONS = [
   {
