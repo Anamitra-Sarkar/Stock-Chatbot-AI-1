@@ -4,6 +4,12 @@ import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
 import OpenAI from "openai";
+import {
+  needsRealTimeSearch,
+  getCurrentTimeContext,
+  performTavilySearch,
+  buildAugmentedPrompt,
+} from "./tavily";
 
 // Initialize OpenAI client with Groq configuration
 const openai = new OpenAI({
@@ -90,6 +96,27 @@ export async function registerRoutes(
         content: message,
       });
 
+      // ✅ INTELLIGENT SEARCH TRIGGER
+      const needsSearch = needsRealTimeSearch(message);
+      const timeContext = getCurrentTimeContext();
+      
+      // ✅ PERFORM TAVILY SEARCH (only if needed)
+      let searchContext: string | null = null;
+      if (needsSearch) {
+        console.log(`[AI] Time-sensitive query detected: "${message}"`);
+        searchContext = await performTavilySearch(message);
+      } else {
+        console.log(`[AI] Regular query (no search needed): "${message}"`);
+      }
+
+      // ✅ BUILD AUGMENTED PROMPT
+      const augmentedSystemPrompt = buildAugmentedPrompt(
+        SYSTEM_PROMPT,
+        searchContext,
+        timeContext,
+        needsSearch
+      );
+
       // Get history for context
       const history = await storage.getMessages(sessionId);
       const messagesForAi = history.map(msg => ({
@@ -97,18 +124,18 @@ export async function registerRoutes(
         content: msg.content
       }));
 
-      // Call Groq API
+      // Call Groq API with augmented prompt
       const completion = await openai.chat.completions.create({
         model: "openai/gpt-oss-20b",
         messages: [
-          { role: "system", content: SYSTEM_PROMPT },
+          { role: "system", content: augmentedSystemPrompt },
           ...messagesForAi
         ],
       });
 
       const aiResponseContent =
         completion.choices[0]?.message?.content ||
-        "I’m sorry, I couldn’t generate a response.";
+        "I'm sorry, I couldn't generate a response.";
 
       // ✅ CLEAN OUTPUT: Remove any <think> tags or hidden reasoning
       const cleanedAiResponse = aiResponseContent.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
@@ -126,6 +153,7 @@ export async function registerRoutes(
       res.status(500).json({ message: "Failed to process chat request" });
     }
   });
+
 
   return httpServer;
 }
