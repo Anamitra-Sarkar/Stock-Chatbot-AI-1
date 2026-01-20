@@ -93,7 +93,7 @@ export async function registerRoutes(
 
       // Call Groq API
       const completion = await openai.chat.completions.create({
-        model: "qwen/qwen3-32b",
+        model: "openai/gpt-oss-20b",
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           ...messagesForAi
