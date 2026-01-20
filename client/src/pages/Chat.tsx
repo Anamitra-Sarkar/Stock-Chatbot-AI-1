@@ -159,7 +159,7 @@ export default function Chat() {
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/90 via-background/60 to-transparent pt-20 pb-6 z-10 px-4">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             <ChatInput onSend={handleSend} isLoading={isSending} />
           </div>
         </div>
