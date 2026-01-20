@@ -131,16 +131,9 @@
 .prose-invert p, .prose-invert li, .prose-invert td, .prose-invert th {
   word-wrap: break-word;
   overflow-wrap: break-word;
-  word-break: break-word;
 }
 
-/* Utility classes for proper text wrapping */
-.break-words {
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  word-break: break-word;
-}
-
+/* Utility class for anywhere wrapping */
 .overflow-wrap-anywhere {
   overflow-wrap: anywhere;
 }

@@ -41,7 +41,7 @@ export function ChatBubble({ message }: ChatBubbleProps) {
           </span>
         </div>
         
-        <div className="prose prose-invert prose-sm max-w-none leading-relaxed text-foreground/90 font-body break-words overflow-wrap-anywhere">
+        <div className="prose prose-invert prose-sm max-w-none leading-relaxed text-foreground/90 font-body overflow-wrap-anywhere">
           <ReactMarkdown>{message.content}</ReactMarkdown>
         </div>
       </div>
