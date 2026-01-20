@@ -42,7 +42,7 @@ export function ChatBubble({ message }: ChatBubbleProps) {
           </span>
         </div>
         
-        <div className="prose prose-invert prose-sm max-w-full leading-relaxed text-foreground/90 font-body break-words overflow-wrap-break-word">
+        <div className="prose prose-invert prose-sm max-w-full leading-relaxed text-foreground/90 font-body break-words">
           <ReactMarkdown 
             remarkPlugins={[remarkGfm]}
             components={{
@@ -58,7 +58,7 @@ export function ChatBubble({ message }: ChatBubbleProps) {
                 <td className="border border-border p-2 whitespace-nowrap" {...props} />
               ),
               p: ({ node, ...props }) => (
-                <p className="break-words overflow-wrap-break-word" {...props} />
+                <p className="break-words" {...props} />
               ),
             }}
           >

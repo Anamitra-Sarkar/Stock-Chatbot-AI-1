@@ -2,6 +2,17 @@
 const TAVILY_API_KEY = process.env.TAVILY_API_KEY;
 const TAVILY_API_URL = "https://api.tavily.com/search";
 
+// Tavily API response types
+interface TavilySearchResult {
+  content: string;
+  url?: string;
+  title?: string;
+}
+
+interface TavilySearchResponse {
+  results: TavilySearchResult[];
+}
+
 // ✅ INTELLIGENT SEARCH TRIGGER
 // Determines if a user query is time-sensitive and needs real-time search
 export function needsRealTimeSearch(userMessage: string): boolean {
@@ -68,7 +79,7 @@ export async function performTavilySearch(query: string): Promise<string | null>
     // Format results as concise context
     const searchContext = data.results
       .slice(0, 5)
-      .map((result: any, idx: number) => {
+      .map((result: TavilySearchResult, idx: number) => {
         return `${idx + 1}. ${result.content}`;
       })
       .join('\n\n');
