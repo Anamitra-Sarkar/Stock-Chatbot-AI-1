@@ -44,6 +44,15 @@
 }
 
 @layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  html {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  
   body {
     @apply text-foreground antialiased selection:bg-primary/30 selection:text-primary-foreground;
     font-family: var(--font-body);
@@ -58,6 +67,7 @@
     background-attachment: fixed;
     min-height: 100vh;
     overflow-x: hidden;
+    max-width: 100vw;
     /* Mobile safe area support */
     padding-bottom: env(safe-area-inset-bottom);
   }

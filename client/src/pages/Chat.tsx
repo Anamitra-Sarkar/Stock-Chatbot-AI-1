@@ -79,7 +79,7 @@ export default function Chat() {
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto custom-scrollbar relative pb-24 md:pb-4">
+        <div className="flex-1 overflow-y-auto custom-scrollbar relative pb-32 md:pb-4">
           {isLoadingHistory ? (
             <div className="h-full flex flex-col items-center justify-center gap-4 text-muted-foreground">
               <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -159,8 +159,8 @@ export default function Chat() {
           )}
         </div>
 
-        <div className="fixed bottom-0 left-0 right-0 md:left-auto bg-gradient-to-t from-background via-background/95 to-transparent pt-6 pb-4 md:pb-4 z-10 px-4">
-          <div className="max-w-4xl mx-auto">
+        <div className="fixed bottom-0 left-0 right-0 md:left-64 bg-gradient-to-t from-background via-background/95 to-transparent pt-6 pb-4 z-10">
+          <div className="max-w-4xl mx-auto px-4">
             <ChatInput onSend={handleSend} isLoading={isSending} />
           </div>
         </div>

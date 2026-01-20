@@ -7,23 +7,34 @@ import {
   TrendingUp, 
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export function Sidebar() {
   const [location] = useLocation();
   const { mutate: clearChat, isPending: isClearing } = useClearChat();
   const { toast } = useToast();
+  const [showClearDialog, setShowClearDialog] = useState(false);
 
   const handleClearChat = () => {
-    if (confirm("Are you sure you want to clear the chat history?")) {
-      clearChat(undefined, {
-        onSuccess: () => {
-          toast({
-            title: "Chat cleared",
-            description: "Your conversation history has been removed.",
-          });
-        }
-      });
-    }
+    clearChat(undefined, {
+      onSuccess: () => {
+        toast({
+          title: "Chat cleared",
+          description: "Your conversation history has been removed.",
+        });
+        setShowClearDialog(false);
+      }
+    });
   };
 
   const handleNewChat = () => {
@@ -78,13 +89,37 @@ export function Sidebar() {
 
       <div className="p-4 border-t border-border/50">
         <button 
-          onClick={handleClearChat}
+          onClick={() => setShowClearDialog(true)}
           disabled={isClearing}
           className="flex w-full items-center gap-3 px-4 py-3 text-sm font-medium text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-xl transition-all duration-200"
         >
           <Trash2 className="w-4 h-4" />
           Clear History
         </button>
+
+        <AlertDialog open={showClearDialog} onOpenChange={setShowClearDialog}>
+          <AlertDialogContent className="border-border/50 bg-card/95 backdrop-blur">
+            <AlertDialogHeader>
+              <AlertDialogTitle className="text-xl font-display flex items-center gap-2">
+                <Trash2 className="w-5 h-5 text-destructive" />
+                Clear Chat History
+              </AlertDialogTitle>
+              <AlertDialogDescription className="text-muted-foreground text-base pt-2">
+                This will permanently delete all your chat messages and conversation history. This action cannot be undone.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter className="gap-2">
+              <AlertDialogCancel className="border-border/50">Cancel</AlertDialogCancel>
+              <AlertDialogAction 
+                onClick={handleClearChat}
+                disabled={isClearing}
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              >
+                {isClearing ? "Clearing..." : "Clear History"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </aside>
   );
