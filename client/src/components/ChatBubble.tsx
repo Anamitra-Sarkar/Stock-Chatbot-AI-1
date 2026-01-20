@@ -31,7 +31,7 @@ export function ChatBubble({ message }: ChatBubbleProps) {
         </div>
       </div>
 
-      <div className="flex-1 min-w-0 space-y-1">
+      <div className="flex-1 min-w-0 space-y-1 overflow-x-auto">
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold text-foreground font-display">
             {isAssistant ? "Stock AI" : "You"}
@@ -41,7 +41,7 @@ export function ChatBubble({ message }: ChatBubbleProps) {
           </span>
         </div>
         
-        <div className="prose prose-invert prose-sm max-w-none leading-relaxed text-foreground/90 font-body">
+        <div className="prose prose-invert prose-sm max-w-none leading-relaxed text-foreground/90 font-body overflow-wrap-anywhere">
           <ReactMarkdown>{message.content}</ReactMarkdown>
         </div>
       </div>

@@ -33,7 +33,7 @@ export function ChatInput({ onSend, isLoading }: ChatInputProps) {
   }, [input]);
 
   return (
-    <div className="relative max-w-3xl mx-auto w-full px-4 mb-6">
+    <div className="relative w-full">
       <form
         onSubmit={handleSubmit}
         className="relative flex items-end gap-2 bg-secondary/50 border border-border/50 rounded-2xl p-2 shadow-lg shadow-black/20 focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary/50 transition-all duration-300"
