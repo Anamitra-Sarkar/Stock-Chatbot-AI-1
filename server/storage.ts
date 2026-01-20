@@ -1,6 +1,4 @@
-import { messages, type Message, type InsertMessage } from "@shared/schema";
-import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { type Message, type InsertMessage } from "@shared/schema";
 
 export interface IStorage {
   getMessages(): Promise<Message[]>;
@@ -8,22 +6,30 @@ export interface IStorage {
   clearMessages(): Promise<void>;
 }
 
-export class DatabaseStorage implements IStorage {
+// In-memory storage implementation (no database required)
+export class InMemoryStorage implements IStorage {
+  private messages: Message[] = [];
+  private nextId = 1;
+
   async getMessages(): Promise<Message[]> {
-    return await db.select().from(messages).orderBy(messages.createdAt);
+    return [...this.messages];
   }
 
   async createMessage(insertMessage: InsertMessage): Promise<Message> {
-    const [message] = await db
-      .insert(messages)
-      .values(insertMessage)
-      .returning();
+    const message: Message = {
+      id: this.nextId++,
+      role: insertMessage.role,
+      content: insertMessage.content,
+      createdAt: new Date(),
+    };
+    this.messages.push(message);
     return message;
   }
 
   async clearMessages(): Promise<void> {
-    await db.delete(messages);
+    this.messages = [];
   }
 }
 
-export const storage = new DatabaseStorage();
+// Use in-memory storage by default (no database required)
+export const storage = new InMemoryStorage();

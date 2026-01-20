@@ -76,7 +76,10 @@ GROQ_API_KEY=your_groq_api_key_here
 NODE_ENV=development
 PORT=5000
 ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000
+# DATABASE_URL=postgresql://... (OPTIONAL: only if you need persistent storage)
 ```
+
+> **Note:** Chat history is stored **in-memory** by default. No database is required!
 
 ### 2. Start the Frontend (Terminal 2)
 
@@ -152,8 +155,11 @@ npm run build
    GROQ_API_KEY=your_groq_api_key
    NODE_ENV=production
    PORT=5000  (Render sets this automatically)
-   ALLOWED_ORIGINS=https://your-frontend.vercel.app,http://localhost:5173
+   ALLOWED_ORIGINS=https://your-frontend.vercel.app,https://*.vercel.app
+   # DATABASE_URL=postgresql://... (OPTIONAL: only needed for persistent storage)
    ```
+   
+   > **Note:** Database is **optional**. Chat history is stored in-memory by default.
 
 4. **Deploy!** Render will build and start your backend.
 
@@ -215,7 +221,10 @@ Stock-Chatbot-AI-1/
 | `GROQ_API_KEY`     | Yes      | Groq API key for AI model                  | `gsk_...`                                                    |
 | `NODE_ENV`         | Yes      | Node environment                           | `development` or `production`                                |
 | `PORT`             | No       | Server port (auto-set by Render)           | `5000`                                                       |
-| `ALLOWED_ORIGINS`  | Yes      | CORS allowed origins (comma-separated)     | `http://localhost:5173,https://your-app.vercel.app`         |
+| `ALLOWED_ORIGINS`  | Yes      | CORS allowed origins (comma-separated)     | `http://localhost:5173,https://your-app.vercel.app,https://*.vercel.app`         |
+| `DATABASE_URL`     | No       | Optional database for persistent storage   | `postgresql://user:pass@host:port/db`                       |
+
+> **Note:** Database is **optional**. The app uses **in-memory storage** by default for chat history.
 
 ---
 
