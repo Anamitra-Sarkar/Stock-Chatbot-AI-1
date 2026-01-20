@@ -159,8 +159,8 @@ export default function Chat() {
           )}
         </div>
 
-        <div className="fixed bottom-0 left-0 right-0 md:left-auto bg-gradient-to-t from-background via-background/95 to-transparent pt-6 pb-4 z-10 px-4 flex justify-center items-center">
-          <div className="max-w-4xl mx-auto">
+        <div className="fixed bottom-0 left-0 right-0 md:left-64 bg-gradient-to-t from-background via-background/95 to-transparent pt-6 pb-4 z-10">
+          <div className="max-w-4xl mx-auto px-4">
             <ChatInput onSend={handleSend} isLoading={isSending} />
           </div>
         </div>
