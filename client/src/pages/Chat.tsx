@@ -126,7 +126,7 @@ export default function Chat() {
           ) : (
             <div className="pb-32 pt-4 px-2 md:px-4 max-w-4xl mx-auto w-full">
               <AnimatePresence initial={false}>
-                {messages?.map((msg) => (
+                {messages?.map((msg: Message) => (
                   <motion.div
                     key={msg.id}
                     initial={{ opacity: 0, y: 10 }}

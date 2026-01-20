@@ -2,12 +2,9 @@ import { Link, useLocation } from "wouter";
 import { useClearChat } from "@/hooks/use-chat";
 import { cn } from "@/lib/utils";
 import { 
-  BarChart3, 
   MessageSquare, 
   Trash2, 
   TrendingUp, 
-  Wallet, 
-  Settings 
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
