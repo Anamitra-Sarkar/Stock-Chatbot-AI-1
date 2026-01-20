@@ -32,7 +32,7 @@ export function ChatBubble({ message }: ChatBubbleProps) {
         </div>
       </div>
 
-      <div className="flex-1 min-w-0 space-y-1 max-w-full overflow-x-hidden">
+      <div className="flex-1 min-w-0 space-y-1 max-w-full box-border overflow-x-hidden">
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold text-foreground font-display">
             {isAssistant ? "Stock AI" : "You"}
@@ -42,20 +42,23 @@ export function ChatBubble({ message }: ChatBubbleProps) {
           </span>
         </div>
         
-        <div className="prose prose-invert prose-sm max-w-full leading-relaxed text-foreground/90 font-body break-words overflow-wrap-anywhere">
+        <div className="prose prose-invert prose-sm max-w-full leading-relaxed text-foreground/90 font-body break-words overflow-wrap-break-word">
           <ReactMarkdown 
             remarkPlugins={[remarkGfm]}
             components={{
               table: ({ node, ...props }) => (
-                <div className="overflow-x-auto max-w-full">
-                  <table className="border-collapse border border-border" {...props} />
+                <div className="overflow-x-auto max-w-full my-4">
+                  <table className="border-collapse border border-border min-w-full" {...props} />
                 </div>
               ),
               th: ({ node, ...props }) => (
-                <th className="border border-border bg-secondary/50 p-2" {...props} />
+                <th className="border border-border bg-secondary/50 p-2 whitespace-nowrap" {...props} />
               ),
               td: ({ node, ...props }) => (
-                <td className="border border-border p-2" {...props} />
+                <td className="border border-border p-2 whitespace-nowrap" {...props} />
+              ),
+              p: ({ node, ...props }) => (
+                <p className="break-words overflow-wrap-break-word" {...props} />
               ),
             }}
           >

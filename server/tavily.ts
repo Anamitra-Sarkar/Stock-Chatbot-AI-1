@@ -1,9 +1,6 @@
-import { tavily } from "@tavily/core";
-
-// Initialize Tavily client (only if API key is provided)
-const tavilyClient = process.env.TAVILY_API_KEY 
-  ? tavily({ apiKey: process.env.TAVILY_API_KEY })
-  : null;
+// Tavily API configuration (using REST API instead of SDK)
+const TAVILY_API_KEY = process.env.TAVILY_API_KEY;
+const TAVILY_API_URL = "https://api.tavily.com/search";
 
 // ✅ INTELLIGENT SEARCH TRIGGER
 // Determines if a user query is time-sensitive and needs real-time search
@@ -31,9 +28,9 @@ export function getCurrentTimeContext(): string {
 }
 
 // ✅ TAVILY SEARCH (Baby Version)
-// Performs real-time search with concise, factual results
+// Performs real-time search with concise, factual results using REST API
 export async function performTavilySearch(query: string): Promise<string | null> {
-  if (!tavilyClient) {
+  if (!TAVILY_API_KEY) {
     console.warn("Tavily API key not configured - skipping search");
     return null;
   }
@@ -41,27 +38,42 @@ export async function performTavilySearch(query: string): Promise<string | null>
   try {
     console.log(`[Tavily] Searching for: "${query}"`);
     
-    const response = await tavilyClient.search(query, {
-      searchDepth: "basic", // Low depth as requested
-      maxResults: 5, // Top 3-5 results
-      includeAnswer: false, // We want snippets, not pre-generated answer
-      includeRawContent: false, // Concise mode
+    const response = await fetch(TAVILY_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        api_key: TAVILY_API_KEY,
+        query: query,
+        search_depth: "basic",
+        max_results: 5,
+        include_answer: false,
+        include_raw_content: false,
+      }),
     });
 
-    if (!response.results || response.results.length === 0) {
+    if (!response.ok) {
+      console.error(`[Tavily] API error: ${response.status} ${response.statusText}`);
+      return null;
+    }
+
+    const data = await response.json();
+
+    if (!data.results || data.results.length === 0) {
       console.log("[Tavily] No results found");
       return null;
     }
 
     // Format results as concise context
-    const searchContext = response.results
+    const searchContext = data.results
       .slice(0, 5)
-      .map((result, idx) => {
+      .map((result: any, idx: number) => {
         return `${idx + 1}. ${result.content}`;
       })
       .join('\n\n');
 
-    console.log(`[Tavily] Found ${response.results.length} results`);
+    console.log(`[Tavily] Found ${data.results.length} results`);
     return searchContext;
   } catch (error) {
     console.error("[Tavily] Search error:", error);
