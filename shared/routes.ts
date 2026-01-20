@@ -8,6 +8,7 @@ export const api = {
       path: "/api/chat",
       input: z.object({
         message: z.string(),
+        sessionId: z.string(),
       }),
       responses: {
         200: z.custom<typeof messages.$inferSelect>(), // Returns the assistant's response message
@@ -24,6 +25,9 @@ export const api = {
     clear: {
       method: "POST" as const,
       path: "/api/chat/clear",
+      input: z.object({
+        sessionId: z.string(),
+      }),
       responses: {
         204: z.void(),
       },
