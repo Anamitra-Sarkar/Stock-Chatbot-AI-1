@@ -117,6 +117,7 @@
   @apply text-primary bg-primary/10 px-1 py-0.5 rounded text-sm;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 .prose-invert pre {
@@ -130,12 +131,13 @@
   overflow-wrap: normal;
 }
 
-.prose-invert table {
-  @apply block overflow-x-auto;
+.prose-invert p, .prose-invert li, .prose-invert td, .prose-invert th, .prose-invert div {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
   max-width: 100%;
 }
 
-.prose-invert p, .prose-invert li, .prose-invert td, .prose-invert th {
+.prose-invert h1, .prose-invert h2, .prose-invert h3, .prose-invert h4, .prose-invert h5, .prose-invert h6 {
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
@@ -143,4 +145,21 @@
 /* Utility class for anywhere wrapping */
 .overflow-wrap-anywhere {
   overflow-wrap: anywhere;
+}
+
+/* Ensure media elements don't cause horizontal scroll */
+.prose-invert img,
+.prose-invert video,
+.prose-invert iframe,
+.prose-invert canvas {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.prose-invert table {
+  display: table;
+  width: 100%;
+  max-width: 100%;
+  table-layout: auto;
+  box-sizing: border-box;
 }
