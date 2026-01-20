@@ -168,8 +168,8 @@
 
 .prose-invert table {
   display: table;
-  width: 100%;
-  max-width: 100%;
+  width: auto;
+  max-width: none;
   table-layout: auto;
   box-sizing: border-box;
 }

@@ -15,7 +15,7 @@ export function ChatBubble({ message }: ChatBubbleProps) {
   return (
     <div
       className={cn(
-        "flex w-full gap-4 p-4 md:p-6 transition-colors duration-200",
+        "flex w-full gap-4 p-4 md:p-6 transition-colors duration-200 overflow-x-auto md:overflow-x-visible",
         isAssistant ? "bg-card/50" : "bg-transparent"
       )}
     >
@@ -32,7 +32,7 @@ export function ChatBubble({ message }: ChatBubbleProps) {
         </div>
       </div>
 
-      <div className="flex-1 min-w-0 space-y-1 w-full box-border overflow-hidden px-1">
+      <div className="flex-1 space-y-1 w-full box-border px-1">
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold text-foreground font-display">
             {isAssistant ? "Stock AI" : "You"}
@@ -42,13 +42,13 @@ export function ChatBubble({ message }: ChatBubbleProps) {
           </span>
         </div>
         
-        <div className="prose prose-invert prose-sm w-full max-w-full leading-relaxed text-foreground/90 font-body break-words overflow-hidden">
+        <div className="prose prose-invert prose-sm w-full max-w-full leading-relaxed text-foreground/90 font-body break-words">
           <ReactMarkdown 
             remarkPlugins={[remarkGfm]}
             components={{
               table: ({ node, ...props }) => (
-                <div className="overflow-x-auto w-full my-4">
-                  <table className="border-collapse border border-border min-w-full" {...props} />
+                <div className="overflow-x-auto w-full my-4 -webkit-overflow-scrolling-touch">
+                  <table className="border-collapse border border-border" style={{minWidth: '800px'}} {...props} />
                 </div>
               ),
               th: ({ node, ...props }) => (
