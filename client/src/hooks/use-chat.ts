@@ -2,11 +2,13 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@shared/routes";
 import { type Message } from "@shared/schema";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+
 export function useChatHistory() {
   return useQuery({
     queryKey: [api.chat.history.path],
     queryFn: async () => {
-      const res = await fetch(api.chat.history.path);
+      const res = await fetch(`${API_BASE_URL}${api.chat.history.path}`);
       if (!res.ok) throw new Error("Failed to fetch chat history");
       return api.chat.history.responses[200].parse(await res.json());
     },
@@ -17,7 +19,7 @@ export function useSendMessage() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (message: string) => {
-      const res = await fetch(api.chat.send.path, {
+      const res = await fetch(`${API_BASE_URL}${api.chat.send.path}`, {
         method: api.chat.send.method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message }),
@@ -45,7 +47,7 @@ export function useClearChat() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async () => {
-      const res = await fetch(api.chat.clear.path, {
+      const res = await fetch(`${API_BASE_URL}${api.chat.clear.path}`, {
         method: api.chat.clear.method,
       });
       if (!res.ok) throw new Error("Failed to clear chat");
