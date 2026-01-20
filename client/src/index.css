@@ -147,8 +147,11 @@
   overflow-wrap: anywhere;
 }
 
-/* Ensure no element causes horizontal scroll */
-.prose-invert * {
+/* Ensure media elements don't cause horizontal scroll */
+.prose-invert img,
+.prose-invert video,
+.prose-invert iframe,
+.prose-invert canvas {
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -156,5 +159,7 @@
 .prose-invert table {
   display: table;
   width: 100%;
+  max-width: 100%;
   table-layout: auto;
+  box-sizing: border-box;
 }
