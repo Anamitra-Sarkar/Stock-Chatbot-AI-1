@@ -44,6 +44,8 @@ export function ChatInput({ onSend, isLoading }: ChatInputProps) {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Ask about stocks, markets, or financial advice..."
+          id="chat-input"
+          name="chat"
           className="flex-1 max-h-[200px] min-h-[50px] w-full bg-transparent border-0 resize-none p-3 text-base focus:ring-0 placeholder:text-muted-foreground/70 font-body scrollbar-thin scrollbar-thumb-border"
           disabled={isLoading}
           rows={1}

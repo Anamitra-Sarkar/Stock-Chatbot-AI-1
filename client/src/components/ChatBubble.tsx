@@ -15,7 +15,7 @@ export function ChatBubble({ message }: ChatBubbleProps) {
   return (
     <div
       className={cn(
-        "flex w-full gap-4 p-4 md:p-6 transition-colors duration-200 overflow-x-hidden md:overflow-x-visible",
+        "flex w-full gap-4 p-4 md:p-6 transition-colors duration-200 overflow-x-auto md:overflow-x-visible",
         isAssistant ? "bg-card/50" : "bg-transparent"
       )}
     >
@@ -47,15 +47,15 @@ export function ChatBubble({ message }: ChatBubbleProps) {
             remarkPlugins={[remarkGfm]}
             components={{
               table: ({ node, ...props }) => (
-                <div className="overflow-x-auto w-full my-4 -webkit-overflow-scrolling-touch">
-                  <table className="border-collapse border border-border" style={{minWidth: '100%'}} {...props} />
+                <div className="overflow-x-auto w-full my-4" style={{ WebkitOverflowScrolling: "touch" }}>
+                  <table className="border-collapse border border-border" style={{ minWidth: "100%" }} {...props} />
                 </div>
               ),
               th: ({ node, ...props }) => (
-                <th className="border border-border bg-secondary/50 p-2 text-xs md:text-sm whitespace-nowrap" {...props} />
+                <th className="border border-border bg-secondary/50 p-2 text-xs md:text-sm whitespace-normal md:whitespace-nowrap" {...props} />
               ),
               td: ({ node, ...props }) => (
-                <td className="border border-border p-2 text-xs md:text-sm whitespace-nowrap" {...props} />
+                <td className="border border-border p-2 text-xs md:text-sm whitespace-normal md:whitespace-nowrap" {...props} />
               ),
               p: ({ node, ...props }) => (
                 <p className="break-words break-all w-full max-w-full whitespace-normal" {...props} />

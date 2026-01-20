@@ -16,25 +16,35 @@ declare module "http" {
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",").map(o => o.trim()) || [
   "http://localhost:5173",
   "http://localhost:3000",
+  // Also accept loopback IP variants in case the browser resolves localhost to 127.0.0.1 or ::1
+  "http://127.0.0.1:5173",
+  "http://127.0.0.1:3000",
+  "http://[::1]:5173",
 ];
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (mobile apps, Postman, etc.)
-      if (!origin) return callback(null, true);
-      
-      // Check exact match first
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      
-      // Allow any Vercel preview/production domain
-      if (origin.endsWith('.vercel.app')) {
-        return callback(null, true);
-      }
-      
-      callback(new Error("Not allowed by CORS"));
+        // Log incoming origin for debugging
+        console.log(`CORS: incoming origin -> ${origin}`);
+
+        // Allow requests with no origin (mobile apps, Postman, or same-origin requests from curl)
+        if (!origin) return callback(null, true);
+
+        // Check exact match first
+        if (allowedOrigins.includes(origin)) {
+          console.log(`CORS: allowing origin -> ${origin}`);
+          return callback(null, true);
+        }
+
+        // Allow any Vercel preview/production domain
+        if (origin.endsWith(".vercel.app")) {
+          console.log(`CORS: allowing vercel origin -> ${origin}`);
+          return callback(null, true);
+        }
+
+        console.warn(`CORS: rejecting origin -> ${origin}`);
+        callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
   })
@@ -108,18 +118,34 @@ app.use((req, res, next) => {
     res.json({ status: "ok", timestamp: new Date().toISOString() });
   });
 
+  // Debug endpoint to inspect incoming origin and headers (useful for CORS troubleshooting)
+  app.get("/api/debug/origin", (req, res) => {
+    const origin = req.header("origin") || null;
+    return res.json({ origin, headers: req.headers });
+  });
+
   // ALWAYS serve the app on the port specified in the environment variable PORT
   // Other ports are firewalled. Default to 5000 if not specified.
   const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.listen(
-    {
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    },
-    () => {
-      log(`🚀 Server running on port ${port}`);
-      log(`Environment: ${process.env.NODE_ENV || "development"}`);
-    },
-  );
+  // Prefer listening on IPv6 '::' which accepts both IPv6 and IPv4 connections on many systems.
+  // Fall back to 0.0.0.0 if binding to '::' fails for any reason.
+  const tryListen = (host: string) =>
+    new Promise<void>((resolve, reject) => {
+      httpServer.once("error", reject);
+      httpServer.listen({ port, host, reusePort: true }, () => {
+        httpServer.removeAllListeners("error");
+        resolve();
+      });
+    });
+
+  try {
+    await tryListen("::");
+    log(`🚀 Server running on port ${port} (listening on ::)`);
+    log(`Environment: ${process.env.NODE_ENV || "development"}`);
+  } catch (err) {
+    log("Failed to bind to IPv6 ::, falling back to 0.0.0.0", "express");
+    await tryListen("0.0.0.0");
+    log(`🚀 Server running on port ${port} (listening on 0.0.0.0)`);
+    log(`Environment: ${process.env.NODE_ENV || "development"}`);
+  }
 })();
