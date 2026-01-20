@@ -13,7 +13,7 @@ declare module "http" {
 }
 
 // CORS configuration
-const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",").map(o => o.trim()) || [
   "http://localhost:5173",
   "http://localhost:3000",
 ];
@@ -24,7 +24,8 @@ app.use(
       // Allow requests with no origin (mobile apps, Postman, etc.)
       if (!origin) return callback(null, true);
       
-      if (allowedOrigins.some(allowed => origin.startsWith(allowed))) {
+      // Exact match for security
+      if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));

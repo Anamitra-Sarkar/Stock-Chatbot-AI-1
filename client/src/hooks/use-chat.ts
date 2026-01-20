@@ -10,7 +10,7 @@ export function useChatHistory() {
     queryFn: async () => {
       const res = await fetch(`${API_BASE_URL}${api.chat.history.path}`);
       if (!res.ok) throw new Error("Failed to fetch chat history");
-      return api.chat.history.responses[200].parse(await res.json());
+      return api.chat.history.responses[200].parse(await res.json()) as Message[];
     },
   });
 }
