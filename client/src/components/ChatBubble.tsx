@@ -15,7 +15,7 @@ export function ChatBubble({ message }: ChatBubbleProps) {
   return (
     <div
       className={cn(
-        "flex w-full gap-4 p-4 md:p-6 transition-colors duration-200 overflow-x-auto md:overflow-x-visible",
+        "flex w-full gap-4 p-4 md:p-6 transition-colors duration-200 overflow-x-hidden md:overflow-x-visible",
         isAssistant ? "bg-card/50" : "bg-transparent"
       )}
     >
@@ -32,7 +32,7 @@ export function ChatBubble({ message }: ChatBubbleProps) {
         </div>
       </div>
 
-      <div className="flex-1 space-y-1 w-full box-border px-1">
+      <div className="flex-1 min-w-0 space-y-1 w-full box-border px-1">
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold text-foreground font-display">
             {isAssistant ? "Stock AI" : "You"}
@@ -42,13 +42,13 @@ export function ChatBubble({ message }: ChatBubbleProps) {
           </span>
         </div>
         
-        <div className="prose prose-invert prose-sm w-full max-w-full leading-relaxed text-foreground/90 font-body break-words">
+        <div className="prose prose-invert prose-sm w-full max-w-full leading-relaxed text-foreground/90 font-body break-words break-all whitespace-normal">
           <ReactMarkdown 
             remarkPlugins={[remarkGfm]}
             components={{
               table: ({ node, ...props }) => (
                 <div className="overflow-x-auto w-full my-4 -webkit-overflow-scrolling-touch">
-                  <table className="border-collapse border border-border" style={{minWidth: '800px'}} {...props} />
+                  <table className="border-collapse border border-border" style={{minWidth: '100%'}} {...props} />
                 </div>
               ),
               th: ({ node, ...props }) => (
@@ -58,7 +58,7 @@ export function ChatBubble({ message }: ChatBubbleProps) {
                 <td className="border border-border p-2 text-xs md:text-sm whitespace-nowrap" {...props} />
               ),
               p: ({ node, ...props }) => (
-                <p className="break-words w-full max-w-full" {...props} />
+                <p className="break-words break-all w-full max-w-full whitespace-normal" {...props} />
               ),
               code: ({ node, inline, className, children, ...props }: {
                 node?: any;
@@ -67,9 +67,9 @@ export function ChatBubble({ message }: ChatBubbleProps) {
                 children?: React.ReactNode;
               }) => (
                 inline ? (
-                  <code className="break-words" {...props}>{children}</code>
+                  <code className="break-words whitespace-normal" {...props}>{children}</code>
                 ) : (
-                  <code className="block overflow-x-auto" {...props}>{children}</code>
+                  <code className="block overflow-x-auto whitespace-pre-wrap" {...props}>{children}</code>
                 )
               ),
             }}
