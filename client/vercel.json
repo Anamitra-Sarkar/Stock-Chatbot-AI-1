@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "cd ../shared && npm install && cd ../client && npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
   "rewrites": [
