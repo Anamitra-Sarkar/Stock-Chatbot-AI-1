@@ -47,7 +47,7 @@ export function ChatBubble({ message }: ChatBubbleProps) {
             remarkPlugins={[remarkGfm]}
             components={{
               table: ({ node, ...props }) => (
-                <div className="overflow-x-auto w-full my-4 -mx-1">
+                <div className="overflow-x-auto w-full my-4">
                   <table className="border-collapse border border-border min-w-full" {...props} />
                 </div>
               ),
@@ -60,11 +60,16 @@ export function ChatBubble({ message }: ChatBubbleProps) {
               p: ({ node, ...props }) => (
                 <p className="break-words w-full max-w-full" {...props} />
               ),
-              code: ({ node, inline, ...props }: any) => (
+              code: ({ node, inline, className, children, ...props }: {
+                node?: any;
+                inline?: boolean;
+                className?: string;
+                children?: React.ReactNode;
+              }) => (
                 inline ? (
-                  <code className="break-words" {...props} />
+                  <code className="break-words" {...props}>{children}</code>
                 ) : (
-                  <code className="block overflow-x-auto" {...props} />
+                  <code className="block overflow-x-auto" {...props}>{children}</code>
                 )
               ),
             }}
