@@ -78,7 +78,7 @@ export default function Chat() {
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto custom-scrollbar relative">
+        <div className="flex-1 overflow-y-auto custom-scrollbar relative pb-40 md:pb-32">
           {isLoadingHistory ? (
             <div className="h-full flex flex-col items-center justify-center gap-4 text-muted-foreground">
               <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -103,7 +103,7 @@ export default function Chat() {
               <p className="text-muted-foreground text-sm md:text-base max-w-md mb-8 md:mb-12 px-4">
                 Ask me about stock trends, market analysis, or financial concepts. I'm here to help you navigate the markets.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full pb-8">
                 {SUGGESTIONS.map((suggestion, index) => (
                   <motion.button
                     initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
@@ -124,7 +124,7 @@ export default function Chat() {
               </div>
             </motion.div>
           ) : (
-            <div className="pb-32 pt-4 px-2 md:px-4 max-w-4xl mx-auto w-full">
+            <div className="pt-4 px-2 md:px-4 max-w-4xl mx-auto w-full">
               <AnimatePresence initial={false}>
                 {messages?.map((msg: Message) => (
                   <motion.div
@@ -158,7 +158,7 @@ export default function Chat() {
           )}
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/90 via-background/60 to-transparent pt-20 pb-6 z-10 px-4">
+        <div className="fixed bottom-0 left-0 right-0 md:left-auto bg-gradient-to-t from-background via-background/95 to-transparent pt-6 pb-4 md:pb-6 z-10 px-4 safe-area-inset-bottom">
           <div className="max-w-4xl mx-auto">
             <ChatInput onSend={handleSend} isLoading={isSending} />
           </div>

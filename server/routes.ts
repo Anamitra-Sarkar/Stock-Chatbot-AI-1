@@ -65,27 +65,33 @@ export async function registerRoutes(
 ): Promise<Server> {
 
   app.get(api.chat.history.path, async (req, res) => {
-    const messages = await storage.getMessages();
+    const sessionId = req.query.sessionId as string;
+    if (!sessionId) {
+      return res.status(400).json({ message: "sessionId is required" });
+    }
+    const messages = await storage.getMessages(sessionId);
     res.json(messages);
   });
 
   app.post(api.chat.clear.path, async (req, res) => {
-    await storage.clearMessages();
+    const { sessionId } = api.chat.clear.input.parse(req.body);
+    await storage.clearMessages(sessionId);
     res.status(204).send();
   });
 
   app.post(api.chat.send.path, async (req, res) => {
     try {
-      const { message } = api.chat.send.input.parse(req.body);
+      const { message, sessionId } = api.chat.send.input.parse(req.body);
 
       // Save user message
       await storage.createMessage({
+        sessionId,
         role: "user",
         content: message,
       });
 
       // Get history for context
-      const history = await storage.getMessages();
+      const history = await storage.getMessages(sessionId);
       const messagesForAi = history.map(msg => ({
         role: msg.role as "user" | "assistant" | "system",
         content: msg.content
@@ -104,10 +110,14 @@ export async function registerRoutes(
         completion.choices[0]?.message?.content ||
         "I’m sorry, I couldn’t generate a response.";
 
+      // ✅ CLEAN OUTPUT: Remove any <think> tags or hidden reasoning
+      const cleanedAiResponse = aiResponseContent.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+
       // Save AI response
       const aiMessage = await storage.createMessage({
+        sessionId,
         role: "assistant",
-        content: aiResponseContent,
+        content: cleanedAiResponse,
       });
 
       res.json(aiMessage);

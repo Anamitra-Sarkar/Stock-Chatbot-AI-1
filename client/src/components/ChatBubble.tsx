@@ -1,6 +1,7 @@
 import { type Message } from "@shared/schema";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { format } from "date-fns";
 import { Bot, User } from "lucide-react";
 
@@ -41,8 +42,8 @@ export function ChatBubble({ message }: ChatBubbleProps) {
           </span>
         </div>
         
-        <div className="prose prose-invert prose-sm max-w-none leading-relaxed text-foreground/90 font-body overflow-wrap-anywhere">
-          <ReactMarkdown>{message.content}</ReactMarkdown>
+        <div className="prose prose-invert prose-sm max-w-none leading-relaxed text-foreground/90 font-body overflow-wrap-anywhere prose-table:border-collapse prose-table:border prose-table:border-border prose-th:border prose-th:border-border prose-th:bg-secondary/50 prose-th:p-2 prose-td:border prose-td:border-border prose-td:p-2">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
         </div>
       </div>
     </div>

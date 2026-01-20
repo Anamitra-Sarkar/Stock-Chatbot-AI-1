@@ -4,6 +4,7 @@ import { z } from "zod";
 
 export const messages = pgTable("messages", {
   id: serial("id").primaryKey(),
+  sessionId: text("session_id").notNull(), // Per-device session identifier
   role: text("role").notNull(), // 'user' or 'assistant'
   content: text("content").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
