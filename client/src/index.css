@@ -108,4 +108,39 @@
 .prose-invert code {
   font-family: var(--font-mono);
   @apply text-primary bg-primary/10 px-1 py-0.5 rounded text-sm;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.prose-invert pre {
+  @apply overflow-x-auto bg-secondary/50 rounded-lg p-4 my-4;
+  max-width: 100%;
+}
+
+.prose-invert pre code {
+  @apply bg-transparent px-0 py-0;
+  word-wrap: normal;
+  overflow-wrap: normal;
+}
+
+.prose-invert table {
+  @apply block overflow-x-auto;
+  max-width: 100%;
+}
+
+.prose-invert p, .prose-invert li, .prose-invert td, .prose-invert th {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Utility classes for proper text wrapping */
+.break-words {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.overflow-wrap-anywhere {
+  overflow-wrap: anywhere;
 }

@@ -65,7 +65,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex h-screen bg-transparent text-foreground overflow-y-auto overflow-x-hidden">
+    <div className="flex h-screen bg-transparent text-foreground overflow-hidden">
       <Sidebar />
       
       <main className="flex-1 flex flex-col min-h-screen relative">
@@ -124,7 +124,7 @@ export default function Chat() {
               </div>
             </motion.div>
           ) : (
-            <div className="pb-32 pt-4 max-w-4xl mx-auto w-full">
+            <div className="pb-32 pt-4 px-2 md:px-4 max-w-4xl mx-auto w-full">
               <AnimatePresence initial={false}>
                 {messages?.map((msg) => (
                   <motion.div
@@ -141,7 +141,7 @@ export default function Chat() {
                 <motion.div 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="flex w-full gap-4 p-4 md:p-6 bg-card/50 backdrop-blur-sm rounded-xl mx-4 md:mx-0 w-[calc(100%-2rem)] md:w-full"
+                  className="flex w-full gap-4 p-4 md:p-6 bg-card/50 backdrop-blur-sm rounded-xl"
                 >
                   <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
                     <Loader2 className="w-5 h-5 text-primary-foreground animate-spin" />
@@ -159,7 +159,7 @@ export default function Chat() {
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/90 via-background/60 to-transparent pt-20 pb-6 z-10 px-4">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-3xl mx-auto">
             <ChatInput onSend={handleSend} isLoading={isSending} />
           </div>
         </div>
