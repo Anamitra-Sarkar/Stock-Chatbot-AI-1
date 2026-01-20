@@ -79,7 +79,7 @@ export default function Chat() {
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar relative pb-32 md:pb-4">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar relative pb-32 md:pb-40">
           {isLoadingHistory ? (
             <div className="h-full flex flex-col items-center justify-center gap-4 text-muted-foreground">
               <Loader2 className="w-8 h-8 animate-spin text-primary" />
