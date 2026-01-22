@@ -1,4 +1,4 @@
-# Stock Chatbot AI - Market Intelligence Assistant
+# Stock Chatbot AI : Market Intelligence Assistant
 
 A full-stack AI-powered chatbot for stock market analysis and financial insights, built with React, Express, and Groq AI.
 
